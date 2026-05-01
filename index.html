@@ -1,7 +1,158 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>bkb3.ru</title>
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --text: #00ff9d;
+            --muted: #667770;
+            --border: #333;
+            --font: ui-monospace, SFMono-Regular, 'Courier New', monospace;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: var(--font);
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100dvh;
+            padding: 20px;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .wrapper {
+            width: 100%;
+            max-width: 520px;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: clamp(1.5rem, 5vw, 2.2rem);
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            margin-bottom: 2rem;
+        }
+
+        .terminal {
+            background: #111;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.2rem;
+            margin-bottom: 2rem;
+            text-align: left;            font-size: clamp(0.85rem, 3vw, 1rem);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        }
+
+        .line { margin-bottom: 0.4rem; }
+        .cursor {
+            display: inline-block;
+            width: 0.6em;
+            height: 1.2em;
+            background: var(--text);
+            animation: blink 1s step-end infinite;
+            vertical-align: text-bottom;
+        }
+
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* 🔹 ИНДИКАТОР ЗАГРУЗКИ */
+        .loader-container {
+            background: #111;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.2rem;
+            text-align: left;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 6px;
+            background: #1a1a1a;
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 0.8rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--text);
+            border-radius: 2px;
+            box-shadow: 0 0 8px var(--text);
+            animation: load 3.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+
+        @keyframes load {
+            0%   { width: 0%; opacity: 1; }
+            15%  { width: 12%; }
+            35%  { width: 35%; }
+            55%  { width: 58%; }
+            75%  { width: 82%; }            100% { width: 100%; opacity: 0.6; }
+        }
+
+        .loader-status {
+            font-size: 0.8rem;
+            color: var(--muted);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            justify-content: space-between;
+        }
+
+        .loader-status::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--text);
+            border-radius: 50%;
+            animation: pulse 1.8s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.1); }
+        }
+
+        /* ♿ Уважение к настройкам пользователя */
+        @media (prefers-reduced-motion: reduce) {
+            .progress-fill, .cursor, .loader-status::before { animation: none; }
+            .progress-fill { width: 65%; }
+        }
+
+        @media (max-width: 380px) {
+            .terminal, .loader-container { padding: 1rem; }
+        }
+    </style>
+</head>
 <body>
-    <h1>Мой личный узел</h1>
-    <p>Сайт работает на GitHub Pages.</p>
+    <div class="wrapper">
+        <div class="logo">bkb4.ru</div>
+        
+        <div class="terminal">
+            <div class="line">> инициализация узла...</div>
+            <div class="line">> соединение установлено</div>
+            <div class="line">этот домен скоро станет чем-то большим<span class="cursor"></span></div>
+        </div>
+
+        <!-- 🔹 Статичный индикатор загрузки -->
+        <div class="loader-container">
+            <div class="line">> загрузка модулей...</div>            <div class="progress-track">
+                <div class="progress-fill"></div>
+            </div>
+            <div class="loader-status">
+                <span>подготовка окружения</span>
+                <span style="color:var(--text)">65%</span>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
